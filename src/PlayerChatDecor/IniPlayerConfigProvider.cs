@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using IniParser;
 using IniParser.Model;
 
@@ -24,9 +25,9 @@ public class IniPlayerConfigProvider : IPlayerConfigProvider
         }
 
         var parser = new FileIniDataParser();
-        IniData data = parser.ReadFile(iniPath);
+        var data = parser.ReadFile(iniPath, Encoding.UTF8);
 
-        if (data == null || data.Sections == null)
+        if (data?.Sections == null)
         {
             return result;
         }
