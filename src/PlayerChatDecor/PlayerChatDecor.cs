@@ -3,6 +3,7 @@ using PluginManager.Api;
 using PluginManager.Api.Capabilities.Implementations.Events.GameEvents;
 using PluginManager.Api.Contracts;
 using PluginManager.Api.Hooks;
+using PluginManager.Config;
 
 namespace PlayerChatDecor;
 
@@ -13,21 +14,20 @@ public class PlayerChatDecor : BasePlugin
     public override string ModuleAuthor => "TouchMe-Inc";
     public override string ModuleDescription => "The plugin allows you to add tags to players";
 
-    private IPlayerConfigProvider _configProvider;
+    private PlayerConfig _config;
 
     protected override void OnLoad()
     {
-        var iniPath = Path.Combine(ModulePath, "players.ini");
-        _configProvider = new IniPlayerConfigProvider(iniPath);
-
-        Log.Out($"[{ModuleName}] Loaded {_configProvider.Count} player with chat overrides");
+        _config = new JsonConfigReader().Read<PlayerConfig>(Path.Combine(ModulePath, "players.json"));
+        
+        Log.Out($"[{ModuleName}] Loaded {_config.Players.Count} player with chat overrides");
 
         RegisterEventHandler<ChatMessageEvent>(OnChatMessage, HookMode.Pre);
     }
 
     private HookResult OnChatMessage(ChatMessageEvent evt)
     {
-        if (!_configProvider.TryGetPlayer(evt.ClientInfo.CrossplatformId, out var info)) return HookResult.Continue;
+        if (!_config.Players.TryGetValue(evt.ClientInfo.CrossplatformId, out var info)) return HookResult.Continue;
 
         var nickColor = !string.IsNullOrEmpty(info.NickColorHex) ? $"[{info.NickColorHex}]" : "";
         var messageColor = !string.IsNullOrEmpty(info.MessageColorHex) ? $"[{info.MessageColorHex}]" : "";

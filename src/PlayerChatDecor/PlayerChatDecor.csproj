@@ -13,22 +13,23 @@
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>
+        <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
+        <OutputPath>..\..\bin\PlayerChatDecor\</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
+        <DebugType>none</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
+        <OutputPath>..\..\bin\PlayerChatDecor\</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -40,9 +41,6 @@
         <StaticPath>../../static/</StaticPath>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
-          <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
-        </Reference>
         <Reference Include="System"/>
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
@@ -50,8 +48,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="PlayerChatDecor.cs" />
-        <Compile Include="IniPlayerConfigProvider.cs" />
-        <Compile Include="IPlayerConfigProvider.cs" />
+        <Compile Include="PlayerConfig.cs" />
         <Compile Include="PlayerInfo.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
@@ -61,9 +58,10 @@
             <HintPath>$(PluginManagerApiPath)PluginManager.Api.dll</HintPath>
             <Private>False</Private>
         </Reference>
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="packages.config" />
+        <Reference Include="PluginManager.Config">
+            <HintPath>$(PluginManagerApiPath)PluginManager.Config.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
     </ItemGroup>
     <Target Name="CopyToPluginFolder" AfterTargets="Build">
         <ItemGroup>
