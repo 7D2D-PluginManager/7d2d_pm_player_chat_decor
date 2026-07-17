@@ -18,7 +18,7 @@ public class PlayerChatDecor : BasePlugin
 
     protected override void OnLoad()
     {
-        _config = new JsonConfigReader().Read<PlayerConfig>(Path.Combine(ModulePath, "players.json"));
+        _config = new JsonConfigReader().Read<PlayerConfig>(ConfigPath);
         
         Log.Out($"[{ModuleName}] Loaded {_config.Players.Count} player with chat overrides");
 
